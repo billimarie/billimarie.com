@@ -1,40 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Who Is Billimarie? | Billimarie</title>
-
-<!-- Begin Jekyll SEO tag v2.8.0 -->
-<meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="Who Is Billimarie?" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="Just a repository for GitHub Pages." />
-<meta property="og:description" content="Just a repository for GitHub Pages." />
-<link rel="canonical" href="https://billimarie.com" />
-<meta property="og:url" content="https://billimarie.com" />
-<meta property="og:site_name" content="Billimarie" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Who Is Billimarie?" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ms. Billimarie's STEAM Lab — Coding Resources for K–5</title>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"Just a repository for GitHub Pages.","headline":"Who Is Billimarie?","name":"Billimarie","url":"https://billimarie.com"}</script>
-<!-- End Jekyll SEO tag -->
-
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
-
-<!-- Setup Google Analytics -->
-
-
-
-<!-- You can set your favicon here -->
-<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
-
-<!-- end custom head snippets -->
-
-        <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
                 "@type": "Person",
@@ -88,28 +58,464 @@
                 ]
             }
         </script>
-    </head>
-  <body>
-    <div class="container-lg px-3 my-5 markdown-body">
-      
-      <h1><a href="https://billimarie.com">Ms. Billimarie</a></h1>
-      
-    <form name="contact" method="POST" data-netlify="true">
-  <p>
-    <label>Your Name: <input type="text" name="name" /></label>
-  </p>
-  <p>
-    <label>Your Email: <input type="email" name="email" /></label>
-  </p>
-  <p>
-    <label>Your School: <textarea name="message"></textarea></label>
-  </p>
-  <p>
-    <button type="submit">Send</button>
-  </p>
-</form>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"DM Serif Display"', 'Georgia', 'serif'],
+            mono:  ['"DM Mono"', 'monospace'],
+            sans:  ['"DM Sans"', 'sans-serif'],
+          },
+          colors: {
+            ink:    '#1a1a2e',
+            paper:  '#f5f2eb',
+            cream:  '#ede9de',
+            teal:   '#2a7d6f',
+            teallt: '#3fa18f',
+            gold:   '#c8943a',
+            rust:   '#b94f2c',
+            slate:  '#4a5568',
+          }
+        }
+      }
+    }
+  </script>
+
+<meta property="og:title" content="Who Is Billimarie?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Just a repository for GitHub Pages." />
+<meta property="og:description" content="Just a repository for GitHub Pages." />
+<link rel="canonical" href="https://billimarie.com" />
+<meta property="og:url" content="https://billimarie.com" />
+<meta property="og:site_name" content="Billimarie" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Who Is Billimarie?" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      background-color: #f5f2eb;
+      color: #1a1a2e;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* Rule lines */
+    .rule { border-color: #1a1a2e; }
+
+    /* Hero monogram stamp */
+    .stamp {
+      border: 3px solid #2a7d6f;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px; height: 56px;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #2a7d6f;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    /* Pill tags */
+    .tag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+    }
+
+    /* Code block accent */
+    .code-line {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: #2a7d6f;
+      letter-spacing: 0.04em;
+    }
+
+    /* Card hover */
+    .card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(26,26,46,0.1);
+    }
+
+    /* Staggered fade-in */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Input focus ring */
+    input:focus, select:focus {
+      outline: 2px solid #2a7d6f;
+      outline-offset: 2px;
+    }
+
+    /* Decorative bracket */
+    .bracket::before { content: '['; margin-right: 4px; color: #2a7d6f; font-family: 'DM Mono', monospace; }
+    .bracket::after  { content: ']'; margin-left:  4px; color: #2a7d6f; font-family: 'DM Mono', monospace; }
+
+    /* Divider dots */
+    .dot-divider {
+      display: flex; align-items: center; gap: 8px; color: #2a7d6f;
+    }
+    .dot-divider span { font-family: 'DM Mono', monospace; font-size: 0.7rem; }
+
+    /* Submit button */
+    .btn-primary {
+      background: #2a7d6f;
+      color: #f5f2eb;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover { background: #3fa18f; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* Marquee */
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-inner {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee 28s linear infinite;
+    }
+
+    /* Success state */
+    #success-msg {
+      display: none;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen">
+
+  <!-- ░░░ HEADER ░░░ -->
+  <header class="relative z-10 border-b rule">
+    <div class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="stamp">MB</div>
+        <div>
+          <div class="font-serif text-lg leading-tight">Ms. Billimarie</div>
+          <div class="code-line">// STEAM Lab</div>
+        </div>
+      </div>
+      <a href="#signup" class="btn-primary hidden sm:block">
+        Join Newsletter →
+      </a>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
-    <script>anchors.add();</script>
-  </body>
+  </header>
+
+  <!-- ░░░ MARQUEE TICKER ░░░ -->
+  <div class="border-b rule overflow-hidden bg-teal text-paper relative z-10" style="height:38px; line-height:38px;">
+    <div class="marquee-inner">
+      <span class="code-line text-paper px-8">🤖 Robotics Workshops &nbsp;·&nbsp; 💻 Coding Exercises &nbsp;·&nbsp; 🔬 STEM Enrichment &nbsp;·&nbsp; 🎨 Digital Arts &nbsp;·&nbsp; 🧮 Math Challenges &nbsp;·&nbsp; 🛠 Engineering Projects &nbsp;·&nbsp; 📡 Robot Rentals &nbsp;·&nbsp; 🎓 K–5 Tutoring &nbsp;·&nbsp; 🌱 Free Resources &nbsp;·&nbsp;</span>
+      <span class="code-line text-paper px-8">🤖 Robotics Workshops &nbsp;·&nbsp; 💻 Coding Exercises &nbsp;·&nbsp; 🔬 STEM Enrichment &nbsp;·&nbsp; 🎨 Digital Arts &nbsp;·&nbsp; 🧮 Math Challenges &nbsp;·&nbsp; 🛠 Engineering Projects &nbsp;·&nbsp; 📡 Robot Rentals &nbsp;·&nbsp; 🎓 K–5 Tutoring &nbsp;·&nbsp; 🌱 Free Resources &nbsp;·&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- ░░░ HERO ░░░ -->
+  <section class="relative z-10 max-w-5xl mx-auto px-6 pt-20 pb-16">
+    <div class="max-w-3xl">
+      <div class="dot-divider mb-6 fade-up">
+        <span>VOL. 01</span>
+        <div class="h-px w-12 bg-teal"></div>
+        <span>EST. NOW</span>
+        <div class="h-px w-12 bg-teal"></div>
+        <span>FREE TO JOIN</span>
+      </div>
+
+      <h1 class="font-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.05] mb-6 fade-up" style="transition-delay: 0.1s">
+        Science. Technology.<br/>
+        <span class="italic text-teal">Engineering. Art. Math.</span>
+      </h1>
+
+      <p class="text-lg text-slate leading-relaxed max-w-xl mb-8 fade-up" style="transition-delay: 0.2s">
+        A curated newsletter for <strong>parents and students in grades K–5</strong> — packed with local STEM workshops, robot rentals, digital arts projects, coding exercises, and hands-on robotics coaching.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 mb-10 fade-up" style="transition-delay: 0.3s">
+        <span class="tag text-teal border-teal">Grades K–5</span>
+        <span class="tag text-gold border-gold">Free Resources</span>
+        <span class="tag text-rust border-rust">Robotics</span>
+        <span class="tag text-slate border-slate">Programming</span>
+        <span class="tag text-teal border-teal">Digital Arts</span>
+      </div>
+
+      <a href="#signup" class="btn-primary inline-block fade-up" style="transition-delay: 0.4s">
+        Get Free Coding Exercises →
+      </a>
+    </div>
+
+    <!-- decorative code snippet -->
+    <div class="absolute right-0 top-20 hidden lg:block opacity-20 select-none pointer-events-none" style="font-family:'DM Mono',monospace; font-size:0.7rem; line-height:1.9; color:#1a1a2e;">
+      <div>function <span style="color:#2a7d6f">learnSTEAM</span>() {</div>
+      <div>&nbsp;&nbsp;const skills = [</div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b94f2c">"robotics"</span>,</div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b94f2c">"engineering"</span>,</div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b94f2c">"coding"</span>,</div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b94f2c">"math"</span>,</div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b94f2c">"art"</span></div>
+      <div>&nbsp;&nbsp;];</div>
+      <div>&nbsp;&nbsp;return skills.map(</div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;skill => <span style="color:#2a7d6f">explore</span>(skill)</div>
+      <div>&nbsp;&nbsp;);</div>
+      <div>}</div>
+    </div>
+  </section>
+
+  <!-- ░░░ DIVIDER ░░░ -->
+  <div class="border-t rule max-w-5xl mx-auto px-6"></div>
+
+  <!-- ░░░ WHAT'S INSIDE ░░░ -->
+  <section class="relative z-10 max-w-5xl mx-auto px-6 py-16">
+    <div class="flex items-baseline gap-4 mb-10 fade-up">
+      <h2 class="font-serif text-3xl">What's Inside Each Issue</h2>
+      <div class="h-px flex-1 bg-ink opacity-20 hidden sm:block"></div>
+      <span class="code-line hidden sm:block">// newsletter.contents</span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- Card 1 -->
+      <div class="card bg-white border rule p-6 fade-up" style="transition-delay:0.05s">
+        <div class="text-3xl mb-3">🤖</div>
+        <div class="font-serif text-xl mb-2">Robotics Coaching</div>
+        <p class="text-sm text-slate leading-relaxed">Step-by-step guidance for building and programming robots. Includes robot rentals for hands-on learning at home.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card bg-white border rule p-6 fade-up" style="transition-delay:0.10s">
+        <div class="text-3xl mb-3">💻</div>
+        <div class="font-serif text-xl mb-2">Coding Exercises</div>
+        <p class="text-sm text-slate leading-relaxed">Free weekly assignments in Scratch, Python, and block-based coding — designed specifically for young learners.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card bg-white border rule p-6 fade-up" style="transition-delay:0.15s">
+        <div class="text-3xl mb-3">🔬</div>
+        <div class="font-serif text-xl mb-2">STEM Workshops</div>
+        <p class="text-sm text-slate leading-relaxed">Curated local and virtual workshops covering science, technology, engineering, and math for K–5 students.</p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card bg-white border rule p-6 fade-up" style="transition-delay:0.20s">
+        <div class="text-3xl mb-3">🎨</div>
+        <div class="font-serif text-xl mb-2">Digital Arts</div>
+        <p class="text-sm text-slate leading-relaxed">Creative projects blending technology and art — pixel art, generative design, and multimedia storytelling.</p>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card bg-white border rule p-6 fade-up" style="transition-delay:0.25s">
+        <div class="text-3xl mb-3">🧮</div>
+        <div class="font-serif text-xl mb-2">Math Enrichment</div>
+        <p class="text-sm text-slate leading-relaxed">Homework helpers and enrichment exercises aligned to school curricula — making math approachable and fun.</p>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="card bg-white border rule p-6 fade-up" style="transition-delay:0.30s">
+        <div class="text-3xl mb-3">🛠</div>
+        <div class="font-serif text-xl mb-2">Engineering Projects</div>
+        <p class="text-sm text-slate leading-relaxed">Build-it-yourself challenges that teach systems thinking, problem solving, and real-world engineering concepts.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ░░░ PULL QUOTE ░░░ -->
+  <section class="relative z-10 border-t border-b rule py-14">
+    <div class="max-w-5xl mx-auto px-6">
+      <blockquote class="font-serif text-2xl sm:text-3xl lg:text-4xl leading-snug text-center max-w-3xl mx-auto fade-up">
+        "Every child is a <span class="italic text-teal">natural scientist.</span><br/>
+        My job is to give them the right tools."
+      </blockquote>
+      <p class="text-center code-line mt-4 fade-up">— Ms. Billimarie</p>
+    </div>
+  </section>
+
+  <!-- ░░░ SIGN UP FORM ░░░ -->
+  <section id="signup" class="relative z-10 max-w-5xl mx-auto px-6 py-20">
+    <div class="grid lg:grid-cols-2 gap-12 items-start">
+
+      <!-- Left copy -->
+      <div class="fade-up">
+        <div class="code-line mb-3">// join.newsletter()</div>
+        <h2 class="font-serif text-4xl sm:text-5xl leading-tight mb-5">
+          Start Learning<br/><span class="italic">for Free.</span>
+        </h2>
+        <p class="text-slate leading-relaxed mb-6">
+          Sign up and instantly receive a free pack of coding exercises, STEM activity sheets, and a curated list of enrichment opportunities — delivered straight to your inbox.
+        </p>
+        <ul class="space-y-3 text-sm text-slate">
+          <li class="flex items-start gap-2"><span class="text-teal font-mono mt-0.5">→</span> Free coding exercises on sign-up</li>
+          <li class="flex items-start gap-2"><span class="text-teal font-mono mt-0.5">→</span> Weekly STEAM resources for K–5</li>
+          <li class="flex items-start gap-2"><span class="text-teal font-mono mt-0.5">→</span> Local workshop & event alerts</li>
+          <li class="flex items-start gap-2"><span class="text-teal font-mono mt-0.5">→</span> Robot rental availability updates</li>
+          <li class="flex items-start gap-2"><span class="text-teal font-mono mt-0.5">→</span> No spam. Unsubscribe anytime.</li>
+        </ul>
+      </div>
+
+      <!-- Right form -->
+      <div class="bg-white border rule p-8 fade-up" style="transition-delay:0.1s">
+        <form id="signup-form" class="space-y-5" novalidate data-netlify="true">
+
+          <div>
+            <label class="block code-line mb-1.5" for="name">Your Name</label>
+            <input
+              id="name" name="name" type="text"
+              placeholder="Jane & Family Smith"
+              class="w-full border rule bg-paper px-4 py-3 text-sm font-sans placeholder-slate/40"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block code-line mb-1.5" for="email">Parent's Email Address</label>
+            <input
+              id="email" name="email" type="email"
+              placeholder="parent@family.com"
+              class="w-full border rule bg-paper px-4 py-3 text-sm font-sans placeholder-slate/40"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block code-line mb-1.5" for="grade">Your Grade</label>
+            <select
+              id="grade" name="grade"
+              class="w-full border rule bg-paper px-4 py-3 text-sm font-sans text-slate"
+            >
+              <option value="">Select a grade range…</option>
+              <option>Kindergarten</option>
+              <option>1st Grade</option>
+              <option>2nd Grade</option>
+              <option>3rd Grade</option>
+              <option>4th Grade</option>
+              <option>5th Grade</option>
+            </select>
+          </div>
+
+	<div>
+            <label class="block code-line mb-1.5" for="school">Your Teacher and School</label>
+            <input
+              id="school" name="school" type="text"
+              placeholder="Ms. Billimarie at School"
+              class="w-full border rule bg-paper px-4 py-3 text-sm font-sans placeholder-slate/40"
+              required
+            />
+          </div>
+
+
+          <button type="submit" class="btn-primary w-full text-center">
+            Subscribe & Get Free Exercises →
+          </button>
+
+          <p class="text-xs text-slate/60 text-center font-mono">
+            Free. No spam. Unsubscribe at any time.
+          </p>
+        </form>
+
+        <!-- Success Message -->
+        <div id="success-msg" class="text-center py-8">
+          <div class="text-4xl mb-4">🎉</div>
+          <h3 class="font-serif text-2xl mb-2">You're in!</h3>
+          <p class="text-sm text-slate">Check your inbox for your free coding exercises.<br/>Welcome to the STEAM Lab.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ FOOTER ░░░ -->
+  <footer class="relative z-10 border-t rule">
+    <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="stamp" style="width:36px;height:36px;font-size:0.75rem;">MB</div>
+        <span class="font-serif text-base">Ms. Billimarie's STEAM Lab</span>
+      </div>
+      <div class="code-line text-xs opacity-60">
+        // Empowering young learners · Grades K–5
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Intersection observer for fade-up animations ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── Form submission handler ──
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name  = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      if (!name || !email) {
+        alert('Please fill in your name and email to continue.');
+        return;
+      }
+
+      const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRx.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      // Hide form, show success
+      this.style.display = 'none';
+      const msg = document.getElementById('success-msg');
+      msg.style.display = 'block';
+
+      // Smooth scroll
+      document.getElementById('signup').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
 </html>
