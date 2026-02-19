@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Ms. Billimarie's STEAM Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=SF+Pro+Display:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font-ui:    'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius-icon: 22%;
+      --icon-size:   72px;
+      --dock-blur:   saturate(200%) blur(20px);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: var(--font-ui);
+      overflow: hidden;
+      background: #000;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    /* ─────────────────────────────────────────
+       PHONE SHELL (centered on desktop)
+    ───────────────────────────────────────── */
+    .phone-shell {
+      position: relative;
+      width: min(100vw, 420px);
+      height: min(100vh, 900px);
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: clamp(0px, 3vw, 48px);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.08),
+                  0 40px 120px rgba(0,0,0,0.9),
+                  inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    /* Desktop centering */
+    @media (min-width: 421px) {
+      body { display: flex; align-items: center; justify-content: center;
+             background: radial-gradient(ellipse at center, #1a2a1e 0%, #080d08 100%); }
+    }
+
+    /* ─────────────────────────────────────────
+       WALLPAPER
+    ───────────────────────────────────────── */
+    .wallpaper {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 30% 20%, rgba(42,200,140,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 70% at 80% 80%, rgba(80,120,255,0.3) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 60% 10%, rgba(255,180,60,0.2) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 60% at 10% 70%, rgba(200,80,200,0.2) 0%, transparent 50%),
+        linear-gradient(160deg, #0d1f15 0%, #0a1525 50%, #150d20 100%);
+    }
+
+    /* Animated aurora layer */
+    .wallpaper::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 100% 50% at 50% 0%, rgba(42,180,120,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 40% at 20% 100%, rgba(100,80,255,0.12) 0%, transparent 50%);
+      animation: aurora 12s ease-in-out infinite alternate;
+    }
+    @keyframes aurora {
+      0%   { opacity: 0.6; transform: scale(1) translateY(0); }
+      100% { opacity: 1;   transform: scale(1.08) translateY(-15px); }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: drift linear infinite;
+    }
+    @keyframes drift {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; transform: translateY(90vh) scale(1); }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
+    }
+
+    /* ─────────────────────────────────────────
+       STATUS BAR
+    ───────────────────────────────────────── */
+    .status-bar {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 50;
+      height: 50px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+      padding-top: 8px;
+    }
+    .status-time {
+      font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.3px;
+    }
+    .status-icons {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .status-icons svg { width: 16px; height: 16px; fill: white; }
+    .battery-bar {
+      width: 24px; height: 12px; border: 1.5px solid white; border-radius: 3px;
+      position: relative; display: flex; align-items: center; padding: 2px;
+    }
+    .battery-bar::after {
+      content: ''; position: absolute; right: -5px; top: 50%;
+      transform: translateY(-50%);
+      width: 3px; height: 5px; background: white; border-radius: 0 2px 2px 0;
+    }
+    .battery-fill { height: 100%; background: #4ade80; border-radius: 1px; width: 75%; }
+
+    /* ─────────────────────────────────────────
+       TOP GREETING
+    ───────────────────────────────────────── */
+    .greeting {
+      position: absolute; top: 58px; left: 0; right: 0; z-index: 10;
+      text-align: center; padding: 12px 24px 0;
+    }
+    .greeting-date {
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6);
+      letter-spacing: 0.05em; text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .greeting-title {
+      font-size: clamp(20px, 5vw, 26px); font-weight: 900; color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      line-height: 1.15;
+    }
+    .greeting-sub {
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55);
+      margin-top: 4px; letter-spacing: 0.03em;
+    }
+
+    /* ─────────────────────────────────────────
+       APP GRID
+    ───────────────────────────────────────── */
+    .app-grid {
+      position: relative;
+      top: 445px;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      padding: 0 18px;
+      gap: 20px 0;
+      align-items: center;
+      justify-items: center;
+    }
+
+    /* ─────────────────────────────────────────
+       APP ICON
+    ───────────────────────────────────────── */
+    .app-icon {
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      animation: none;
+      position: relative;
+    }
+
+    /* Jiggle on page load */
+    .app-icon.jiggle { animation: jiggle 0.4s ease-in-out; }
+    @keyframes jiggle {
+      0%,100% { transform: rotate(0deg) scale(1); }
+      20%  { transform: rotate(-4deg) scale(1.05); }
+      40%  { transform: rotate(3deg) scale(1.05); }
+      60%  { transform: rotate(-3deg) scale(1.02); }
+      80%  { transform: rotate(2deg) scale(1.02); }
+    }
+
+    /* Press scale */
+    .app-icon:active .icon-face { transform: scale(0.88); }
+
+    .icon-face {
+      width: var(--icon-size); height: var(--icon-size);
+      border-radius: var(--radius-icon);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      position: relative; overflow: hidden;
+      transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.3),
+                  inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+
+    /* Glass sheen */
+    .icon-face::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 100%);
+      border-radius: var(--radius-icon) var(--radius-icon) 0 0;
+      pointer-events: none;
+    }
+
+    .app-icon:hover .icon-face {
+      transform: scale(1.08);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.4),
+                  inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+
+    .icon-label {
+      font-size: 11.5px; font-weight: 700; color: #fff;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+      letter-spacing: 0.01em;
+      text-align: center;
+      max-width: 80px;
+    }
+
+    /* Notification badge */
+    .badge {
+      position: absolute; top: -4px; right: -4px; z-index: 5;
+      min-width: 18px; height: 18px;
+      background: #ff3b30; color: white;
+      border-radius: 999px; font-size: 10px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 4px;
+      border: 1.5px solid rgba(0,0,0,0.3);
+      box-shadow: 0 2px 6px rgba(255,59,48,0.5);
+      animation: badge-pulse 2s ease-in-out infinite;
+    }
+    @keyframes badge-pulse {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.15); }
+    }
+
+    /* ─── Individual icon colors ─── */
+    .icon-robotics  { background: linear-gradient(145deg, #2563eb 0%, #1d4ed8 40%, #1e40af 100%); }
+    .icon-math      { background: linear-gradient(145deg, #16a34a 0%, #15803d 40%, #166534 100%); }
+    .icon-science   { background: linear-gradient(145deg, #7c3aed 0%, #6d28d9 40%, #5b21b6 100%); }
+    .icon-engineering { background: linear-gradient(145deg, #ea580c 0%, #dc2626 40%, #b91c1c 100%); }
+    .icon-coding    { background: linear-gradient(145deg, #0891b2 0%, #0e7490 40%, #155e75 100%); }
+    .icon-art       { background: linear-gradient(145deg, #db2777 0%, #be185d 40%, #9d174d 100%); }
+
+    /* ─────────────────────────────────────────
+       NEWSLETTER APP (special wide icon in row)
+    ───────────────────────────────────────── */
+    .newsletter-widget {
+      position: absolute;
+      bottom: 128px; left: 18px; right: 18px;
+      z-index: 10;
+      background: rgba(255,255,255,0.14);
+      backdrop-filter: blur(30px) saturate(180%);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 14px 18px;
+      display: flex; align-items: center; gap: 14px;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .newsletter-widget:hover { background: rgba(255,255,255,0.2); transform: scale(1.01); }
+    .newsletter-widget:active { transform: scale(0.98); }
+    .nw-icon {
+      width: 46px; height: 46px; border-radius: 14px; flex-shrink: 0;
+      background: linear-gradient(145deg, #f59e0b, #d97706);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(245,158,11,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+    .nw-text { flex: 1; min-width: 0; }
+    .nw-title { font-size: 13px; font-weight: 800; color: #fff; }
+    .nw-sub   { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.65); margin-top: 1px; }
+    .nw-arrow {
+      font-size: 20px; color: rgba(255,255,255,0.5);
+      transition: transform 0.2s, color 0.2s;
+    }
+    .newsletter-widget:hover .nw-arrow { transform: translateX(3px); color: white; }
+
+    /* ─────────────────────────────────────────
+       DOCK
+    ───────────────────────────────────────── */
+    .dock {
+      position: absolute; bottom: 20px; left: 18px; right: 18px; z-index: 50;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: var(--dock-blur);
+      -webkit-backdrop-filter: var(--dock-blur);
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.22);
+      padding: 14px 20px;
+      display: flex; justify-content: space-around; align-items: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .dock .app-icon { --icon-size: 56px; }
+
+    /* ─────────────────────────────────────────
+       MODAL OVERLAY
+    ───────────────────────────────────────── */
+    .modal-overlay {
+      position: absolute; inset: 0; z-index: 200;
+      display: none; align-items: flex-end; justify-content: center;
+      background: rgba(0,0,0,0);
+      transition: background 0.3s;
+    }
+    .modal-overlay.open {
+      display: flex;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .modal-sheet {
+      width: 100%; max-height: 88%;
+      background: #fff;
+      border-radius: 28px 28px 0 0;
+      overflow: hidden;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+      display: flex; flex-direction: column;
+    }
+    .modal-overlay.open .modal-sheet {
+      transform: translateY(0);
+    }
+
+    /* Sheet handle */
+    .sheet-handle {
+      width: 36px; height: 5px; border-radius: 3px;
+      background: #d1d5db; margin: 12px auto 0; flex-shrink: 0;
+    }
+
+    /* Sheet top color bar */
+    .sheet-topbar {
+      height: 6px; width: 100%;
+      background: linear-gradient(90deg, #2563eb, #7c3aed, #db2777, #ea580c, #16a34a, #0891b2);
+      flex-shrink: 0;
+    }
+
+    .sheet-body {
+      padding: 20px 24px 32px;
+      overflow-y: auto; flex: 1;
+    }
+
+    /* App icon in modal */
+    .modal-icon-row {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+    }
+    .modal-app-icon {
+      width: 64px; height: 64px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+    .modal-app-title { font-size: 22px; font-weight: 900; color: #111; line-height: 1.1; }
+    .modal-app-sub   { font-size: 13px; font-weight: 600; color: #6b7280; margin-top: 3px; }
+
+    .modal-desc {
+      font-size: 14px; line-height: 1.65; color: #374151;
+      background: #f9fafb; border-radius: 14px; padding: 14px 16px;
+      margin-bottom: 20px; font-weight: 600;
+    }
+
+    /* Chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+    .chip {
+      font-size: 11px; font-weight: 700; padding: 5px 12px;
+      border-radius: 999px; letter-spacing: 0.04em;
+    }
+
+    /* Form in modal */
+    .modal-form { display: flex; flex-direction: column; gap: 12px; }
+    .modal-label { font-size: 12px; font-weight: 800; color: #374151; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .modal-input {
+      width: 100%; padding: 13px 16px; border-radius: 12px;
+      border: 2px solid #e5e7eb; font-family: var(--font-ui);
+      font-size: 15px; font-weight: 600; color: #111;
+      background: #f9fafb; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .modal-input:focus {
+      border-color: var(--modal-color, #2563eb);
+      box-shadow: 0 0 0 4px rgba(var(--modal-rgb, 37,99,235), 0.1);
+      background: #fff;
+    }
+    .modal-input::placeholder { color: #9ca3af; font-weight: 500; }
+
+    .modal-btn {
+      width: 100%; padding: 15px; border-radius: 14px; border: none;
+      font-family: var(--font-ui); font-size: 16px; font-weight: 800;
+      color: #fff; cursor: pointer;
+      background: var(--modal-color, #2563eb);
+      box-shadow: 0 6px 20px rgba(var(--modal-rgb,37,99,235), 0.4);
+      transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .modal-btn:hover  { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(var(--modal-rgb,37,99,235),0.45); }
+    .modal-btn:active { transform: scale(0.97); }
+
+    .modal-fine { font-size: 11px; font-weight: 600; color: #9ca3af; text-align: center; margin-top: 8px; }
+
+    /* Success screen */
+    .modal-success { display: none; text-align: center; padding: 24px 0 16px; }
+    .modal-success.visible { display: block; }
+    .success-emoji { font-size: 64px; display: block; margin-bottom: 16px;
+      animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes pop { 0%{transform:scale(0)} 100%{transform:scale(1)} }
+    .success-title { font-size: 24px; font-weight: 900; color: #111; margin-bottom: 8px; }
+    .success-body  { font-size: 14px; font-weight: 600; color: #6b7280; line-height: 1.6; }
+    .success-close {
+      display: inline-block; margin-top: 20px;
+      background: #f3f4f6; color: #374151;
+      font-family: var(--font-ui); font-size: 14px; font-weight: 800;
+      padding: 12px 28px; border-radius: 12px; border: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .success-close:hover { background: #e5e7eb; }
+
+    /* ─────────────────────────────────────────
+       PRESS MODE (home screen edit jiggle)
+    ───────────────────────────────────────── */
+    .edit-mode .app-icon .icon-face {
+      animation: wiggle 0.5s ease-in-out infinite alternate;
+    }
+    @keyframes wiggle {
+      0%   { transform: rotate(-2.5deg); }
+      100% { transform: rotate(2.5deg); }
+    }
+    .edit-mode .app-icon:nth-child(even) .icon-face { animation-direction: alternate-reverse; }
+    .edit-mode .app-icon:nth-child(3n) .icon-face { animation-delay: 0.1s; }
+
+    /* ─────────────────────────────────────────
+       SWIPE HINT
+    ───────────────────────────────────────── */
+    .swipe-hint {
+      position: absolute; bottom: 98px; left: 0; right: 0; z-index: 10;
+      text-align: center;
+      font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.45);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      animation: fade-hint 3s ease-in-out 2s forwards;
+    }
+    @keyframes fade-hint { 0%{opacity:1} 100%{opacity:0} }
+
+    /* ─────────────────────────────────────────
+       PAGE DOTS
+    ───────────────────────────────────────── */
+    .page-dots {
+      position: absolute; bottom: 108px; left: 0; right: 0;
+      z-index: 10; display: flex; justify-content: center; gap: 6px;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+    .dot.active { background: rgba(255,255,255,0.9); width: 16px; border-radius: 4px; transition: width 0.3s; }
+
+    /* ─────────────────────────────────────────
+       STAGGERED ENTRANCE
+    ───────────────────────────────────────── */
+    .app-icon { opacity: 0; animation: icon-in 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    @keyframes icon-in {
+      0%   { opacity: 0; transform: scale(0.4) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="phone-shell" id="phone">
+
+  <!-- ░░ WALLPAPER ░░ -->
+  <div class="wallpaper" id="wallpaper"></div>
+
+  <!-- ░░ STATUS BAR ░░ -->
+  <div class="status-bar">
+    <div class="status-time" id="status-time">9:41</div>
+    <div class="status-icons">
+      <!-- Signal -->
+      <svg viewBox="0 0 17 12"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4.5" y="4.5" width="3" height="7.5" rx="1"/><rect x="9" y="2" width="3" height="10" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity="0.35"/></svg>
+      <!-- WiFi -->
+      <svg viewBox="0 0 16 12"><path d="M8 9.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/><path d="M3.5 6.5C5 5 6.4 4.2 8 4.2s3 .8 4.5 2.3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M1 4C3 2 5.4.8 8 .8s5 1.2 7 3.2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/></svg>
+      <!-- Battery -->
+      <div class="battery-bar"><div class="battery-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ░░ GREETING ░░ -->
+  <div class="greeting">
+    <img src="./assets/billimarie-hero-image-steam-lab.png" style="border-radius: var(--radius-icon); aspect-ratio: 1 / 1; 
+  object-fit: cover; margin-bottom: 15px;" width="225px" />
+
+    <div class="greeting-date" id="greeting-date">Wednesday, February 18</div>
+    <div class="greeting-title">Ms. Billimarie's<br/>STEAM Lab 🚀</div>
+  </div>
+
+  <!-- ░░ APP GRID ░░ -->
+  <div class="app-grid" id="app-grid">
+
+    <!-- Robotics -->
+    <div class="app-icon" style="animation-delay:0.05s" data-app="robotics"
+      onclick="openModal('robotics')">
+      <div class="icon-face icon-robotics">🤖
+        <div class="badge">3</div>
+      </div>
+      <span class="icon-label">Robotics</span>
+    </div>
+
+    <!-- Math -->
+    <div class="app-icon" style="animation-delay:0.12s" data-app="math"
+      onclick="openModal('math')">
+      <div class="icon-face icon-math">🧮
+        <div class="badge">7</div>
+      </div>
+      <span class="icon-label">Math</span>
+    </div>
+
+    <!-- Science -->
+    <div class="app-icon" style="animation-delay:0.19s" data-app="science"
+      onclick="openModal('science')">
+      <div class="icon-face icon-science">🔬
+        <div class="badge">5</div>
+      </div>
+      <span class="icon-label">Science</span>
+    </div>
+
+    <!-- Engineering -->
+    <div class="app-icon" style="animation-delay:0.26s" data-app="engineering"
+      onclick="openModal('engineering')">
+      <div class="icon-face icon-engineering">🛠
+        <div class="badge">2</div>
+      </div>
+      <span class="icon-label">Engineering</span>
+    </div>
+
+    <!-- Coding -->
+    <div class="app-icon" style="animation-delay:0.33s" data-app="coding"
+      onclick="openModal('coding')">
+      <div class="icon-face icon-coding">💻
+        <div class="badge">9</div>
+      </div>
+      <span class="icon-label">Coding</span>
+    </div>
+
+    <!-- Art -->
+    <div class="app-icon" style="animation-delay:0.40s" data-app="art"
+      onclick="openModal('art')">
+      <div class="icon-face icon-art">🎨
+        <div class="badge">4</div>
+      </div>
+      <span class="icon-label">Digital Art</span>
+    </div>
+
+  </div><!-- /app-grid -->
+
+  <!-- ░░ NEWSLETTER WIDGET ░░ 
+  <div class="newsletter-widget" onclick="openModal('newsletter')" style="opacity:0;animation:icon-in 0.5s 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;">
+    <div class="nw-icon">📬</div>
+    <div class="nw-text">
+      <div class="nw-title">Join the Newsletter — It's Free!</div>
+      <div class="nw-sub">Weekly STEAM resources for grades K–5</div>
+    </div>
+    <div class="nw-arrow">›</div>
+  </div> -->
+
+  <!-- ░░ PAGE DOTS ░░ -->
+  <div class="page-dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+  </div>
+
+  <!-- ░░ DOCK ░░ -->
+  <div class="dock">
+    <!-- Home (newsletter) -->
+    <div class="app-icon" onclick="openModal('newsletter')" style="animation-delay:0.55s;">
+      <div class="icon-face" style="background:linear-gradient(145deg,#f59e0b,#d97706);">📬</div>
+      <span class="icon-label">Newsletter</span>
+    </div>
+    <!-- Events -->
+    <div class="app-icon" onclick="openModal('workshops')" style="animation-delay:0.60s;">
+      <div class="icon-face" style="background:linear-gradient(145deg,#10b981,#059669);">📅</div>
+      <span class="icon-label">Workshops</span>
+    </div>
+    <!-- Robots -->
+    <div class="app-icon" onclick="openModal('rentals')" style="animation-delay:0.65s;">
+      <div class="icon-face" style="background:linear-gradient(145deg,#6366f1,#4f46e5);">📡</div>
+      <span class="icon-label">Rentals</span>
+    </div>
+    <!-- About -->
+    <div class="app-icon" onclick="openModal('about')" style="animation-delay:0.70s;">
+      <div class="icon-face" style="background:linear-gradient(145deg,#ec4899,#db2777);">👩🏽‍🏫</div>
+      <span class="icon-label">About</span>
+    </div>
+  </div>
+
+  <!-- ░░░░░░░░░░ MODAL SHEET ░░░░░░░░░░ -->
+  <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal-sheet" id="modal-sheet">
+      <div class="sheet-topbar" id="sheet-topbar"></div>
+      <div class="sheet-handle"></div>
+      <div class="sheet-body" id="sheet-body">
+        <!-- Dynamically filled -->
+      </div>
+    </div>
+  </div>
+
+</div><!-- /phone-shell -->
+
+
+<script>
+// ─────────────────────────────────────
+// APP DATA
+// ─────────────────────────────────────
+const apps = {
+  robotics: {
+    emoji: '🤖', label: 'Robotics', color: '#2563eb', rgb: '37,99,235',
+    gradient: 'linear-gradient(145deg,#2563eb,#1e40af)',
+    sub: 'Build & Program Robots',
+    desc: 'Learn to build and program your own robots! From simple circuits to fully autonomous bots — step-by-step projects designed for grades K–5.',
+    chips: [
+      { label: 'Robot Rentals', bg: '#dbeafe', color: '#1d4ed8' },
+      { label: 'Lego Mindstorms', bg: '#dbeafe', color: '#1d4ed8' },
+      { label: 'Coding Basics', bg: '#dbeafe', color: '#1d4ed8' },
+      { label: 'K–5 Friendly', bg: '#bfdbfe', color: '#1e40af' },
+    ],
+    ctaLabel: 'Unlock Free Robotics Lessons 🤖',
+  },
+  math: {
+    emoji: '🧮', label: 'Math', color: '#16a34a', rgb: '22,163,74',
+    gradient: 'linear-gradient(145deg,#16a34a,#166534)',
+    sub: 'Enrichment & Practice',
+    desc: 'Fun, visual math enrichment that goes beyond the classroom. Word problems, logic puzzles, geometry, and number sense for every grade level.',
+    chips: [
+      { label: 'Homework Help', bg: '#dcfce7', color: '#15803d' },
+      { label: 'Logic Puzzles', bg: '#dcfce7', color: '#15803d' },
+      { label: 'Worksheets', bg: '#dcfce7', color: '#15803d' },
+      { label: 'Grades K–5', bg: '#bbf7d0', color: '#166534' },
+    ],
+    ctaLabel: 'Unlock Free Math Exercises 🧮',
+  },
+  science: {
+    emoji: '🔬', label: 'Science', color: '#7c3aed', rgb: '124,58,237',
+    gradient: 'linear-gradient(145deg,#7c3aed,#5b21b6)',
+    sub: 'Experiments & Discovery',
+    desc: 'Curiosity-first science! Kitchen experiments, nature explorations, and hands-on labs that make kids fall in love with how the world works.',
+    chips: [
+      { label: 'Kitchen Lab', bg: '#ede9fe', color: '#6d28d9' },
+      { label: 'Life Science', bg: '#ede9fe', color: '#6d28d9' },
+      { label: 'Physics Fun', bg: '#ede9fe', color: '#6d28d9' },
+      { label: 'STEM Method', bg: '#ddd6fe', color: '#5b21b6' },
+    ],
+    ctaLabel: 'Unlock Free Science Activities 🔬',
+  },
+  engineering: {
+    emoji: '🛠', label: 'Engineering', color: '#ea580c', rgb: '234,88,12',
+    gradient: 'linear-gradient(145deg,#ea580c,#b91c1c)',
+    sub: 'Design & Build',
+    desc: 'Think like an engineer! Build bridges from popsicle sticks, design machines from recycled materials, and solve real-world challenges.',
+    chips: [
+      { label: 'Build Challenges', bg: '#ffedd5', color: '#c2410c' },
+      { label: 'Design Thinking', bg: '#ffedd5', color: '#c2410c' },
+      { label: 'Materials Kit', bg: '#ffedd5', color: '#c2410c' },
+      { label: 'Problem Solving', bg: '#fed7aa', color: '#9a3412' },
+    ],
+    ctaLabel: 'Unlock Free Engineering Projects 🛠',
+  },
+  coding: {
+    emoji: '💻', label: 'Coding', color: '#0891b2', rgb: '8,145,178',
+    gradient: 'linear-gradient(145deg,#0891b2,#155e75)',
+    sub: 'Scratch · Python · Blocks',
+    desc: 'Start coding today! From drag-and-drop Scratch games to real Python scripts — weekly exercises crafted for young learners who want to create.',
+    chips: [
+      { label: 'Scratch', bg: '#cffafe', color: '#0e7490' },
+      { label: 'Python Intro', bg: '#cffafe', color: '#0e7490' },
+      { label: 'Block Coding', bg: '#cffafe', color: '#0e7490' },
+      { label: 'Free Projects', bg: '#a5f3fc', color: '#155e75' },
+    ],
+    ctaLabel: 'Unlock Free Coding Exercises 💻',
+  },
+  art: {
+    emoji: '🎨', label: 'Digital Art', color: '#db2777', rgb: '219,39,119',
+    gradient: 'linear-gradient(145deg,#db2777,#9d174d)',
+    sub: 'Create & Express',
+    desc: 'Where creativity meets technology! Pixel art, digital illustration, animation, and multimedia projects that blend STEM with artistic expression.',
+    chips: [
+      { label: 'Pixel Art', bg: '#fce7f3', color: '#be185d' },
+      { label: 'Animation', bg: '#fce7f3', color: '#be185d' },
+      { label: 'Generative Art', bg: '#fce7f3', color: '#be185d' },
+      { label: 'Creative Code', bg: '#fbcfe8', color: '#9d174d' },
+    ],
+    ctaLabel: 'Unlock Free Art Activities 🎨',
+  },
+  newsletter: {
+    emoji: '📬', label: 'Newsletter', color: '#d97706', rgb: '217,119,6',
+    gradient: 'linear-gradient(145deg,#f59e0b,#b45309)',
+    sub: 'Free Weekly Resources',
+    desc: 'The full STEAM Lab experience delivered to your inbox every week — free coding exercises, robotics projects, local workshops, and enrichment opportunities for grades K–5.',
+    chips: [
+      { label: '100% Free', bg: '#fef3c7', color: '#b45309' },
+      { label: 'Weekly Issues', bg: '#fef3c7', color: '#b45309' },
+      { label: 'For Parents', bg: '#fef3c7', color: '#b45309' },
+      { label: 'For Students', bg: '#fde68a', color: '#92400e' },
+    ],
+    ctaLabel: 'Subscribe & Get Free Exercises 🎁',
+  },
+  workshops: {
+    emoji: '📅', label: 'Workshops', color: '#10b981', rgb: '16,185,129',
+    gradient: 'linear-gradient(145deg,#10b981,#047857)',
+    sub: 'Local & Virtual Events',
+    desc: 'Get alerts for STEM workshops, coding camps, science fairs, and robotics competitions happening near you — curated specifically for grades K–5.',
+    chips: [
+      { label: 'Local Events', bg: '#d1fae5', color: '#065f46' },
+      { label: 'Virtual Camps', bg: '#d1fae5', color: '#065f46' },
+      { label: 'Competitions', bg: '#d1fae5', color: '#065f46' },
+      { label: 'Free & Paid', bg: '#a7f3d0', color: '#064e3b' },
+    ],
+    ctaLabel: 'Get Workshop Alerts 📅',
+  },
+  rentals: {
+    emoji: '📡', label: 'Robot Rentals', color: '#6366f1', rgb: '99,102,241',
+    gradient: 'linear-gradient(145deg,#6366f1,#4338ca)',
+    sub: 'Borrow Robots at Home',
+    desc: 'Can\'t buy a robot? Rent one! Ms. Billimarie offers robot rental kits so your child can build and code at home. Sign up to check availability.',
+    chips: [
+      { label: 'Lego Sets', bg: '#e0e7ff', color: '#4338ca' },
+      { label: 'Coding Kits', bg: '#e0e7ff', color: '#4338ca' },
+      { label: 'Delivery', bg: '#e0e7ff', color: '#4338ca' },
+      { label: 'Limited Slots', bg: '#c7d2fe', color: '#3730a3' },
+    ],
+    ctaLabel: 'Join Waitlist for Robot Rentals 📡',
+  },
+  about: {
+    emoji: '👩‍🏫', label: 'About Ms. B', color: '#ec4899', rgb: '236,72,153',
+    gradient: 'linear-gradient(145deg,#ec4899,#9d174d)',
+    sub: 'STEAM Educator · K–5',
+    desc: 'Ms. Billimarie is a passionate STEAM educator dedicated to making science, technology, engineering, art, and math accessible and joyful for every child in grades K–5.',
+    chips: [
+      { label: 'Robotics Coach', bg: '#fce7f3', color: '#9d174d' },
+      { label: 'Coding Teacher', bg: '#fce7f3', color: '#9d174d' },
+      { label: 'Newsletter Author', bg: '#fce7f3', color: '#9d174d' },
+      { label: 'K–5 Specialist', bg: '#fbcfe8', color: '#831843' },
+    ],
+    ctaLabel: 'Subscribe to Learn More 👩‍🏫',
+  },
+};
+
+// ─────────────────────────────────────
+// MODAL
+// ─────────────────────────────────────
+let currentApp = null;
+
+function openModal(appKey) {
+  const app = apps[appKey];
+  if (!app) return;
+  currentApp = appKey;
+
+  const topbar   = document.getElementById('sheet-topbar');
+  const body     = document.getElementById('sheet-body');
+  const overlay  = document.getElementById('modal-overlay');
+
+  // Color the topbar
+  topbar.style.background = app.gradient;
+
+  // Build chips HTML
+  const chipsHTML = app.chips.map(c =>
+    `<span class="chip" style="background:${c.bg};color:${c.color};">${c.label}</span>`
+  ).join('');
+
+  body.innerHTML = `
+    <div class="modal-icon-row">
+      <div class="modal-app-icon" style="background:${app.gradient};">${app.emoji}</div>
+      <div>
+        <div class="modal-app-title">${app.label}</div>
+        <div class="modal-app-sub">${app.sub}</div>
+      </div>
+    </div>
+
+    <div class="modal-desc">${app.desc}</div>
+
+    <div class="chips">${chipsHTML}</div>
+
+    <div id="modal-form-wrap">
+      <div class="modal-form">
+        <div>
+          <div class="modal-label">Your Name</div>
+          <input class="modal-input" id="m-name" type="text" placeholder="e.g. The Johnson Family"
+            style="--modal-color:${app.color}; --modal-rgb:${app.rgb};"/>
+        </div>
+        <div>
+          <div class="modal-label">Email Address</div>
+          <input class="modal-input" id="m-email" type="email" placeholder="parent@family.com"
+            style="--modal-color:${app.color}; --modal-rgb:${app.rgb};"/>
+        </div>
+        <div>
+          <div class="modal-label">Student Grade</div>
+          <select class="modal-input" id="m-grade"
+            style="--modal-color:${app.color}; --modal-rgb:${app.rgb};">
+            <option value="">Select a grade…</option>
+            <option>Kindergarten</option>
+            <option>1st Grade</option>
+            <option>2nd Grade</option>
+            <option>3rd Grade</option>
+            <option>4th Grade</option>
+            <option>5th Grade</option>
+            <option>Multiple grades</option>
+          </select>
+        </div>
+        <button class="modal-btn" onclick="submitModal()"
+          style="background:${app.gradient}; --modal-rgb:${app.rgb};">
+          ${app.ctaLabel}
+        </button>
+        <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+      </div>
+    </div>
+
+    <div class="modal-success" id="modal-success">
+      <span class="success-emoji">${app.emoji}</span>
+      <div class="success-title">You're in! 🎉</div>
+      <div class="success-body">
+        Check your inbox for your free <strong>${app.label}</strong> resources.<br/>
+        Welcome to Ms. Billimarie's STEAM Lab!
+      </div>
+      <button class="success-close" onclick="closeModal()">Back to Home Screen</button>
+    </div>
+  `;
+
+  // Show overlay
+  overlay.style.display = 'flex';
+  // Force reflow then open
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => overlay.classList.add('open'));
+  });
+}
+
+function closeModal() {
+  const overlay = document.getElementById('modal-overlay');
+  overlay.classList.remove('open');
+  setTimeout(() => { overlay.style.display = 'none'; }, 400);
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+function submitModal() {
+  const name  = document.getElementById('m-name').value.trim();
+  const email = document.getElementById('m-email').value.trim();
+  if (!name) { alert('Please enter your name.'); return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Please enter a valid email address.'); return;
+  }
+  document.getElementById('modal-form-wrap').style.display = 'none';
+  document.getElementById('modal-success').classList.add('visible');
+}
+
+// ─────────────────────────────────────
+// LIVE CLOCK
+// ─────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours(), m = now.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  document.getElementById('status-time').textContent =
+    `${h}:${String(m).padStart(2,'0')}`;
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// ─────────────────────────────────────
+// LIVE DATE
+// ─────────────────────────────────────
+const days  = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('greeting-date').textContent =
+  `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+
+// ─────────────────────────────────────
+// FLOATING PARTICLES
+// ─────────────────────────────────────
+const colors = ['rgba(100,255,180,0.5)','rgba(120,160,255,0.5)','rgba(255,200,80,0.4)','rgba(220,100,255,0.4)','rgba(80,220,255,0.4)'];
+const wallpaper = document.getElementById('wallpaper');
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = 3 + Math.random() * 6;
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%;
+    background:${colors[i % colors.length]};
+    animation-duration:${8 + Math.random()*14}s;
+    animation-delay:${Math.random()*12}s;
+  `;
+  wallpaper.appendChild(p);
+}
+
+// ─────────────────────────────────────
+// LONG-PRESS JIGGLE (iOS edit mode feel)
+// ─────────────────────────────────────
+let pressTimer;
+const grid = document.getElementById('phone');
+grid.addEventListener('pointerdown', () => {
+  pressTimer = setTimeout(() => {
+    document.getElementById('app-grid').classList.add('edit-mode');
+    document.querySelector('.dock').classList.add('edit-mode');
+    // Tap anywhere to exit
+    document.addEventListener('pointerdown', exitEditMode, { once: true });
+  }, 600);
+});
+grid.addEventListener('pointerup', () => clearTimeout(pressTimer));
+grid.addEventListener('pointercancel', () => clearTimeout(pressTimer));
+
+function exitEditMode() {
+  document.getElementById('app-grid').classList.remove('edit-mode');
+  document.querySelector('.dock').classList.remove('edit-mode');
+}
+
+// ─────────────────────────────────────
+// SWIPE UP TO OPEN NEWSLETTER
+// ─────────────────────────────────────
+let touchStartY = 0;
+document.getElementById('phone').addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+document.getElementById('phone').addEventListener('touchend', e => {
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if (dy > 80 && !document.getElementById('modal-overlay').classList.contains('open')) {
+    openModal('newsletter');
+  }
+}, { passive: true });
+</script>
+</body>
+</html>
