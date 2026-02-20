@@ -147,11 +147,14 @@
        APP GRID
     ───────────────────────────────────────── */
     .app-grid {
+      position: relative;
+      top: 445px;
       z-index: 10;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(2, 1fr);
       padding: 0 18px;
+      gap: 20px 0;
       align-items: center;
       justify-items: center;
     }
@@ -498,9 +501,9 @@
   <!-- ░░ GREETING ░░ -->
 
   <div class="greeting">
+    <img src="./assets/billimarie-hero-image-steam-lab.png" style="border-radius: var(--radius-icon); aspect-ratio: 1 / 1; object-fit: cover; margin-bottom: 15px;" width="225px" />
     <div class="greeting-date" id="greeting-date">Wednesday, February 18</div>
     <div class="greeting-title">Ms. Billimarie's<br/>STEAM Lab 🚀</div>
-    <div class="greeting-sub">Tap an app to unlock free resources →</div>
   </div>
 
   <!-- ░░ APP GRID ░░ -->
