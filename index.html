@@ -147,14 +147,14 @@
        APP GRID
     ───────────────────────────────────────── */
     .app-grid {
-      position: relative;
-      top: 445px;
+      position: absolute;
+      top: 148px; left: 0; right: 0; bottom: 120px;
       z-index: 10;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(2, 1fr);
       padding: 0 18px;
-      gap: 20px 0;
+      gap: 0;
       align-items: center;
       justify-items: center;
     }
@@ -209,10 +209,6 @@
                   inset 0 1px 0 rgba(255,255,255,0.3);
     }
 
-    .app-icon:hover .badge {
-      display: none;
-    }
-
     .icon-label {
       font-size: 11.5px; font-weight: 700; color: #fff;
       text-shadow: 0 1px 6px rgba(0,0,0,0.7);
@@ -223,7 +219,7 @@
 
     /* Notification badge */
     .badge {
-      position: fixed; top: -4px; right: -4px; z-index: 5;
+      position: absolute; top: -4px; right: -4px; z-index: 5;
       min-width: 18px; height: 18px;
       background: #ff3b30; color: white;
       border-radius: 999px; font-size: 10px; font-weight: 800;
@@ -232,7 +228,6 @@
       border: 1.5px solid rgba(0,0,0,0.3);
       box-shadow: 0 2px 6px rgba(255,59,48,0.5);
       animation: badge-pulse 2s ease-in-out infinite;
-      opacity: 100%;
     }
     @keyframes badge-pulse {
       0%,100% { transform: scale(1); }
@@ -469,18 +464,222 @@
 <body>
 
 <!--
-  NETLIFY FORM DETECTION: Netlify's build bot scans static HTML for data-netlify forms.
-  Because our real form is injected dynamically via JS, we include this hidden ghost form
-  so Netlify registers it. The actual POST is sent via fetch() in submitModal().
+  ═══════════════════════════════════════════════════════════
+  NETLIFY STATIC FORMS — one real <form> per app.
+  Netlify's build bot detects these at deploy time.
+  JS shows/hides the correct form inside the modal sheet;
+  submission uses a native fetch POST from the visible form.
+  ═══════════════════════════════════════════════════════════
 -->
 
-<form name="steam-signup" data-netlify="true" data-netlify-honeypot="bot-field" style="display:none;">
-  <input type="hidden" name="form-name" value="steam-signup"/>
-  <input name="bot-field"/>
-  <input name="app-context" type="text"/>
-  <input name="name" type="text"/>
-  <input name="email" type="email"/>
-  <select name="grade"><option>Kindergarten</option></select>
+<!-- ── ROBOTICS ── -->
+
+<form id="form-robotics" class="netlify-form" style="display:none;"
+  name="robotics-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="robotics-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#2563eb,#1e40af);">Unlock Free Robotics Lessons 🤖</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── MATH ── -->
+
+<form id="form-math" class="netlify-form" style="display:none;"
+  name="math-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="math-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#16a34a,#166534);">Unlock Free Math Exercises 🧮</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── SCIENCE ── -->
+
+<form id="form-science" class="netlify-form" style="display:none;"
+  name="science-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="science-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#7c3aed,#5b21b6);">Unlock Free Science Activities 🔬</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── ENGINEERING ── -->
+
+<form id="form-engineering" class="netlify-form" style="display:none;"
+  name="engineering-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="engineering-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#ea580c,#b91c1c);">Unlock Free Engineering Projects 🛠</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── CODING ── -->
+
+<form id="form-coding" class="netlify-form" style="display:none;"
+  name="coding-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="coding-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#0891b2,#155e75);">Unlock Free Coding Exercises 💻</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── ART ── -->
+
+<form id="form-art" class="netlify-form" style="display:none;"
+  name="art-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="art-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#db2777,#9d174d);">Unlock Free Art Activities 🎨</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── NEWSLETTER ── -->
+
+<form id="form-newsletter" class="netlify-form" style="display:none;"
+  name="newsletter-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="newsletter-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#f59e0b,#b45309);">Subscribe & Get Free Exercises 🎁</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── WORKSHOPS ── -->
+
+<form id="form-workshops" class="netlify-form" style="display:none;"
+  name="workshops-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="workshops-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#10b981,#047857);">Get Workshop Alerts 📅</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── RENTALS ── -->
+
+<form id="form-rentals" class="netlify-form" style="display:none;"
+  name="rentals-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="rentals-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#6366f1,#4338ca);">Join Waitlist for Robot Rentals 📡</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
+</form>
+
+<!-- ── ABOUT ── -->
+
+<form id="form-about" class="netlify-form" style="display:none;"
+  name="about-signup" data-netlify="true" data-netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="about-signup"/>
+  <p style="display:none;"><input name="bot-field"/></p>
+  <div><div class="modal-label">Your Name</div>
+    <input class="modal-input" name="name" type="text" placeholder="e.g. The Johnson Family" required/></div>
+  <div><div class="modal-label">Email Address</div>
+    <input class="modal-input" name="email" type="email" placeholder="parent@family.com" required/></div>
+  <div><div class="modal-label">Student Grade</div>
+    <select class="modal-input" name="grade">
+      <option value="">Select a grade…</option>
+      <option>Kindergarten</option><option>1st Grade</option><option>2nd Grade</option>
+      <option>3rd Grade</option><option>4th Grade</option><option>5th Grade</option>
+      <option>Multiple grades</option>
+    </select></div>
+  <button type="submit" class="modal-btn" style="background:linear-gradient(145deg,#ec4899,#9d174d);">Subscribe to Learn More 👩‍🏫</button>
+  <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
 </form>
 
 <div class="phone-shell" id="phone">
@@ -506,15 +705,16 @@
   <!-- ░░ GREETING ░░ -->
 
   <div class="greeting">
-    <img src="./assets/billimarie-hero-image-steam-lab.png" style="border-radius: var(--radius-icon); aspect-ratio: 1 / 1; object-fit: cover; margin-bottom: 15px;" width="225px" />
     <div class="greeting-date" id="greeting-date">Wednesday, February 18</div>
     <div class="greeting-title">Ms. Billimarie's<br/>STEAM Lab 🚀</div>
+    <div class="greeting-sub">Tap an app to unlock free resources →</div>
   </div>
 
   <!-- ░░ APP GRID ░░ -->
 
   <div class="app-grid" id="app-grid">
-    
+
+```
 <!-- Robotics -->
 <div class="app-icon" style="animation-delay:0.05s" data-app="robotics"
   onclick="openModal('robotics')">
@@ -572,7 +772,7 @@
 
   </div><!-- /app-grid -->
 
-  <!-- ░░ NEWSLETTER WIDGET ░░ 
+  <!-- ░░ NEWSLETTER WIDGET ░░ -->
 
   <div class="newsletter-widget" onclick="openModal('newsletter')" style="opacity:0;animation:icon-in 0.5s 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;">
     <div class="nw-icon">📬</div>
@@ -581,7 +781,7 @@
       <div class="nw-sub">Weekly STEAM resources for grades K–5</div>
     </div>
     <div class="nw-arrow">›</div>
-  </div> -->
+  </div>
 
   <!-- ░░ PAGE DOTS ░░ -->
 
@@ -622,7 +822,24 @@
       <div class="sheet-topbar" id="sheet-topbar"></div>
       <div class="sheet-handle"></div>
       <div class="sheet-body" id="sheet-body">
-        <!-- Dynamically filled -->
+        <!-- Static header row — filled by openModal() -->
+        <div class="modal-icon-row" id="modal-icon-row"></div>
+        <!-- Static description -->
+        <div class="modal-desc" id="modal-desc"></div>
+        <!-- Static chips -->
+        <div class="chips" id="modal-chips"></div>
+        <!-- The active form is moved here by openModal() -->
+        <div id="modal-form-slot"></div>
+        <!-- Success state (shared) -->
+        <div class="modal-success" id="modal-success">
+          <span class="success-emoji" id="success-emoji">🎉</span>
+          <div class="success-title">You're in! 🎉</div>
+          <div class="success-body" id="success-body">
+            Check your inbox for your free resources.<br/>
+            Welcome to Ms. Billimarie's STEAM Lab!
+          </div>
+          <button class="success-close" onclick="closeModal()">Back to Home Screen</button>
+        </div>
       </div>
     </div>
   </div>
@@ -645,7 +862,6 @@ const apps = {
       { label: 'Coding Basics', bg: '#dbeafe', color: '#1d4ed8' },
       { label: 'K–5 Friendly', bg: '#bfdbfe', color: '#1e40af' },
     ],
-    ctaLabel: 'Unlock Free Robotics Lessons 🤖',
   },
   math: {
     emoji: '🧮', label: 'Math', color: '#16a34a', rgb: '22,163,74',
@@ -658,7 +874,6 @@ const apps = {
       { label: 'Worksheets', bg: '#dcfce7', color: '#15803d' },
       { label: 'Grades K–5', bg: '#bbf7d0', color: '#166534' },
     ],
-    ctaLabel: 'Unlock Free Math Exercises 🧮',
   },
   science: {
     emoji: '🔬', label: 'Science', color: '#7c3aed', rgb: '124,58,237',
@@ -671,7 +886,6 @@ const apps = {
       { label: 'Physics Fun', bg: '#ede9fe', color: '#6d28d9' },
       { label: 'STEM Method', bg: '#ddd6fe', color: '#5b21b6' },
     ],
-    ctaLabel: 'Unlock Free Science Activities 🔬',
   },
   engineering: {
     emoji: '🛠', label: 'Engineering', color: '#ea580c', rgb: '234,88,12',
@@ -684,7 +898,6 @@ const apps = {
       { label: 'Materials Kit', bg: '#ffedd5', color: '#c2410c' },
       { label: 'Problem Solving', bg: '#fed7aa', color: '#9a3412' },
     ],
-    ctaLabel: 'Unlock Free Engineering Projects 🛠',
   },
   coding: {
     emoji: '💻', label: 'Coding', color: '#0891b2', rgb: '8,145,178',
@@ -697,7 +910,6 @@ const apps = {
       { label: 'Block Coding', bg: '#cffafe', color: '#0e7490' },
       { label: 'Free Projects', bg: '#a5f3fc', color: '#155e75' },
     ],
-    ctaLabel: 'Unlock Free Coding Exercises 💻',
   },
   art: {
     emoji: '🎨', label: 'Digital Art', color: '#db2777', rgb: '219,39,119',
@@ -710,7 +922,6 @@ const apps = {
       { label: 'Generative Art', bg: '#fce7f3', color: '#be185d' },
       { label: 'Creative Code', bg: '#fbcfe8', color: '#9d174d' },
     ],
-    ctaLabel: 'Unlock Free Art Activities 🎨',
   },
   newsletter: {
     emoji: '📬', label: 'Newsletter', color: '#d97706', rgb: '217,119,6',
@@ -723,7 +934,6 @@ const apps = {
       { label: 'For Parents', bg: '#fef3c7', color: '#b45309' },
       { label: 'For Students', bg: '#fde68a', color: '#92400e' },
     ],
-    ctaLabel: 'Subscribe & Get Free Exercises 🎁',
   },
   workshops: {
     emoji: '📅', label: 'Workshops', color: '#10b981', rgb: '16,185,129',
@@ -736,7 +946,6 @@ const apps = {
       { label: 'Competitions', bg: '#d1fae5', color: '#065f46' },
       { label: 'Free & Paid', bg: '#a7f3d0', color: '#064e3b' },
     ],
-    ctaLabel: 'Get Workshop Alerts 📅',
   },
   rentals: {
     emoji: '📡', label: 'Robot Rentals', color: '#6366f1', rgb: '99,102,241',
@@ -749,7 +958,6 @@ const apps = {
       { label: 'Delivery', bg: '#e0e7ff', color: '#4338ca' },
       { label: 'Limited Slots', bg: '#c7d2fe', color: '#3730a3' },
     ],
-    ctaLabel: 'Join Waitlist for Robot Rentals 📡',
   },
   about: {
     emoji: '👩‍🏫', label: 'About Ms. B', color: '#ec4899', rgb: '236,72,153',
@@ -762,102 +970,94 @@ const apps = {
       { label: 'Newsletter Author', bg: '#fce7f3', color: '#9d174d' },
       { label: 'K–5 Specialist', bg: '#fbcfe8', color: '#831843' },
     ],
-    ctaLabel: 'Subscribe to Learn More 👩‍🏫',
   },
 };
 
 // ─────────────────────────────────────
-// MODAL
+// MODAL — uses real static <form> elements
 // ─────────────────────────────────────
-let currentApp = null;
+let currentApp  = null;   // key of the open app
+let activeForm  = null;   // reference to the form currently in the slot
+let formOrigin  = null;   // original parent to return the form to on close
 
 function openModal(appKey) {
   const app = apps[appKey];
   if (!app) return;
   currentApp = appKey;
 
-  const topbar   = document.getElementById('sheet-topbar');
-  const body     = document.getElementById('sheet-body');
-  const overlay  = document.getElementById('modal-overlay');
+  // ── 1. Fill static header content ──
+  document.getElementById('sheet-topbar').style.background = app.gradient;
 
-  // Color the topbar
-  topbar.style.background = app.gradient;
+  document.getElementById('modal-icon-row').innerHTML = `
+    <div class="modal-app-icon" style="background:${app.gradient};">${app.emoji}</div>
+    <div>
+      <div class="modal-app-title">${app.label}</div>
+      <div class="modal-app-sub">${app.sub}</div>
+    </div>`;
 
-  // Build chips HTML
-  const chipsHTML = app.chips.map(c =>
-    `<span class="chip" style="background:${c.bg};color:${c.color};">${c.label}</span>`
-  ).join('');
+  document.getElementById('modal-desc').textContent = app.desc;
 
-  body.innerHTML = `
-    <div class="modal-icon-row">
-      <div class="modal-app-icon" style="background:${app.gradient};">${app.emoji}</div>
-      <div>
-        <div class="modal-app-title">${app.label}</div>
-        <div class="modal-app-sub">${app.sub}</div>
-      </div>
-    </div>
+  document.getElementById('modal-chips').innerHTML = app.chips
+    .map(c => `<span class="chip" style="background:${c.bg};color:${c.color};">${c.label}</span>`)
+    .join('');
 
-    <div class="modal-desc">${app.desc}</div>
+  // ── 2. Hide success, show form slot ──
+  const successEl = document.getElementById('modal-success');
+  successEl.classList.remove('visible');
+  successEl.style.display = 'none';
 
-    <div class="chips">${chipsHTML}</div>
+  // ── 3. Move the correct static form into the slot ──
+  const slot = document.getElementById('modal-form-slot');
 
-    <div id="modal-form-wrap">
-      <div class="modal-form">
-        <div>
-          <div class="modal-label">Your Name</div>
-          <input class="modal-input" id="m-name" type="text" placeholder="e.g. The Johnson Family"
-            style="--modal-color:${app.color}; --modal-rgb:${app.rgb};"/>
-        </div>
-        <div>
-          <div class="modal-label">Email Address</div>
-          <input class="modal-input" id="m-email" type="email" placeholder="parent@family.com"
-            style="--modal-color:${app.color}; --modal-rgb:${app.rgb};"/>
-        </div>
-        <div>
-          <div class="modal-label">Student Grade</div>
-          <select class="modal-input" id="m-grade"
-            style="--modal-color:${app.color}; --modal-rgb:${app.rgb};">
-            <option value="">Select a grade…</option>
-            <option>Kindergarten</option>
-            <option>1st Grade</option>
-            <option>2nd Grade</option>
-            <option>3rd Grade</option>
-            <option>4th Grade</option>
-            <option>5th Grade</option>
-            <option>Multiple grades</option>
-          </select>
-        </div>
-        <button class="modal-btn" onclick="submitModal()"
-          style="background:${app.gradient}; --modal-rgb:${app.rgb};">
-          ${app.ctaLabel}
-        </button>
-        <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
-      </div>
-    </div>
+  // Return any previously-moved form to its hidden resting place
+  if (activeForm && formOrigin) {
+    activeForm.style.display = 'none';
+    formOrigin.appendChild(activeForm);
+  }
 
-    <div class="modal-success" id="modal-success">
-      <span class="success-emoji">${app.emoji}</span>
-      <div class="success-title">You're in! 🎉</div>
-      <div class="success-body">
-        Check your inbox for your free <strong>${app.label}</strong> resources.<br/>
-        Welcome to Ms. Billimarie's STEAM Lab!
-      </div>
-      <button class="success-close" onclick="closeModal()">Back to Home Screen</button>
-    </div>
-  `;
+  const form = document.getElementById('form-' + appKey);
+  if (form) {
+    formOrigin = form.parentNode;
+    // Reset the form and re-enable its submit button
+    form.reset();
+    const btn = form.querySelector('button[type="submit"]');
+    if (btn) { btn.disabled = false; btn.textContent = btn.getAttribute('data-label') || btn.textContent; }
+    form.style.display = 'flex';
+    form.style.flexDirection = 'column';
+    form.style.gap = '12px';
+    slot.appendChild(form);
+    activeForm = form;
 
-  // Show overlay
+    // Attach submit handler (remove old one first to avoid duplicates)
+    form.onsubmit = handleFormSubmit;
+  }
+
+  // ── 4. Open overlay ──
+  const overlay = document.getElementById('modal-overlay');
   overlay.style.display = 'flex';
-  // Force reflow then open
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => overlay.classList.add('open'));
-  });
+  requestAnimationFrame(() => requestAnimationFrame(() => overlay.classList.add('open')));
 }
 
 function closeModal() {
   const overlay = document.getElementById('modal-overlay');
   overlay.classList.remove('open');
-  setTimeout(() => { overlay.style.display = 'none'; }, 400);
+
+  setTimeout(() => {
+    overlay.style.display = 'none';
+
+    // Return the active form to its hidden resting place
+    if (activeForm && formOrigin) {
+      activeForm.style.display = 'none';
+      formOrigin.appendChild(activeForm);
+      activeForm = null;
+      formOrigin = null;
+    }
+
+    // Reset success panel
+    const successEl = document.getElementById('modal-success');
+    successEl.classList.remove('visible');
+    successEl.style.display = 'none';
+  }, 400);
 }
 
 function handleOverlayClick(e) {
@@ -866,6 +1066,8 @@ function handleOverlayClick(e) {
 
 // ─────────────────────────────────────
 // NETLIFY FORM SUBMISSION
+// Each form is a real static <form> with data-netlify="true".
+// We intercept submit, POST via fetch, then show success UI.
 // ─────────────────────────────────────
 function encodeNetlify(data) {
   return Object.keys(data)
@@ -873,38 +1075,50 @@ function encodeNetlify(data) {
     .join('&');
 }
 
-function submitModal() {
-  const name  = document.getElementById('m-name').value.trim();
-  const email = document.getElementById('m-email').value.trim();
-  const grade = document.getElementById('m-grade').value;
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const form  = e.target;
+  const name  = form.querySelector('[name="name"]').value.trim();
+  const email = form.querySelector('[name="email"]').value.trim();
+  const grade = form.querySelector('[name="grade"]').value;
 
-  if (!name) { alert('Please enter your name.'); return; }
+  if (!name)  { alert('Please enter your name.');          return; }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     alert('Please enter a valid email address.'); return;
   }
 
-  const btn = document.querySelector('.modal-btn');
+  const btn = form.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
+  const formName = form.getAttribute('name'); // e.g. "robotics-signup"
+
   fetch('/', {
-    method: 'POST',
+    method:  'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: encodeNetlify({
-      'form-name':   'steam-signup',
-      'app-context': currentApp || 'unknown',
-      'name':         name,
-      'email':        email,
-      'grade':        grade,
+      'form-name': formName,
+      'name':       name,
+      'email':      email,
+      'grade':      grade,
     }),
   })
-  .then(() => {
-    document.getElementById('modal-form-wrap').style.display = 'none';
-    document.getElementById('modal-success').classList.add('visible');
+  .then(res => {
+    if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
+    // Show success panel
+    const app = apps[currentApp] || {};
+    document.getElementById('success-emoji').textContent  = app.emoji || '🎉';
+    document.getElementById('success-body').innerHTML =
+      `Check your inbox for your free <strong>${app.label || ''}</strong> resources.<br/>
+       Welcome to Ms. Billimarie's STEAM Lab!`;
+    form.style.display = 'none';
+    const successEl = document.getElementById('modal-success');
+    successEl.style.display = 'block';
+    successEl.classList.add('visible');
   })
   .catch(err => {
     console.error('Netlify form error:', err);
-    alert('Something went wrong. Please try again.');
-    if (btn) { btn.disabled = false; btn.textContent = apps[currentApp]?.ctaLabel || 'Subscribe'; }
+    alert('Something went wrong — please try again.');
+    if (btn) { btn.disabled = false; btn.textContent = btn.getAttribute('data-label') || 'Subscribe'; }
   });
 }
 
