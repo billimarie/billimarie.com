@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -146,14 +147,14 @@
        APP GRID
     ───────────────────────────────────────── */
     .app-grid {
-      position: relative;
-      top: 445px;
+      position: absolute;
+      top: 148px; left: 0; right: 0; bottom: 120px;
       z-index: 10;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(2, 1fr);
       padding: 0 18px;
-      gap: 20px 0;
+      gap: 0;
       align-items: center;
       justify-items: center;
     }
@@ -458,15 +459,33 @@
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
   </style>
+
 </head>
 <body>
+
+<!--
+  NETLIFY FORM DETECTION: Netlify's build bot scans static HTML for data-netlify forms.
+  Because our real form is injected dynamically via JS, we include this hidden ghost form
+  so Netlify registers it. The actual POST is sent via fetch() in submitModal().
+-->
+
+<form name="steam-signup" data-netlify="true" data-netlify-honeypot="bot-field" style="display:none;">
+  <input type="hidden" name="form-name" value="steam-signup"/>
+  <input name="bot-field"/>
+  <input name="app-context" type="text"/>
+  <input name="name" type="text"/>
+  <input name="email" type="email"/>
+  <select name="grade"><option>Kindergarten</option></select>
+</form>
 
 <div class="phone-shell" id="phone">
 
   <!-- ░░ WALLPAPER ░░ -->
+
   <div class="wallpaper" id="wallpaper"></div>
 
   <!-- ░░ STATUS BAR ░░ -->
+
   <div class="status-bar">
     <div class="status-time" id="status-time">9:41</div>
     <div class="status-icons">
@@ -480,74 +499,77 @@
   </div>
 
   <!-- ░░ GREETING ░░ -->
-  <div class="greeting">
-    <img src="./assets/billimarie-hero-image-steam-lab.png" style="border-radius: var(--radius-icon); aspect-ratio: 1 / 1; 
-  object-fit: cover; margin-bottom: 15px;" width="225px" />
 
+  <div class="greeting">
     <div class="greeting-date" id="greeting-date">Wednesday, February 18</div>
     <div class="greeting-title">Ms. Billimarie's<br/>STEAM Lab 🚀</div>
+    <div class="greeting-sub">Tap an app to unlock free resources →</div>
   </div>
 
   <!-- ░░ APP GRID ░░ -->
+
   <div class="app-grid" id="app-grid">
 
-    <!-- Robotics -->
-    <div class="app-icon" style="animation-delay:0.05s" data-app="robotics"
-      onclick="openModal('robotics')">
-      <div class="icon-face icon-robotics">🤖
-        <div class="badge">3</div>
-      </div>
-      <span class="icon-label">Robotics</span>
-    </div>
+```
+<!-- Robotics -->
+<div class="app-icon" style="animation-delay:0.05s" data-app="robotics"
+  onclick="openModal('robotics')">
+  <div class="icon-face icon-robotics">🤖
+    <div class="badge">3</div>
+  </div>
+  <span class="icon-label">Robotics</span>
+</div>
 
-    <!-- Math -->
-    <div class="app-icon" style="animation-delay:0.12s" data-app="math"
-      onclick="openModal('math')">
-      <div class="icon-face icon-math">🧮
-        <div class="badge">7</div>
-      </div>
-      <span class="icon-label">Math</span>
-    </div>
+<!-- Math -->
+<div class="app-icon" style="animation-delay:0.12s" data-app="math"
+  onclick="openModal('math')">
+  <div class="icon-face icon-math">🧮
+    <div class="badge">7</div>
+  </div>
+  <span class="icon-label">Math</span>
+</div>
 
-    <!-- Science -->
-    <div class="app-icon" style="animation-delay:0.19s" data-app="science"
-      onclick="openModal('science')">
-      <div class="icon-face icon-science">🔬
-        <div class="badge">5</div>
-      </div>
-      <span class="icon-label">Science</span>
-    </div>
+<!-- Science -->
+<div class="app-icon" style="animation-delay:0.19s" data-app="science"
+  onclick="openModal('science')">
+  <div class="icon-face icon-science">🔬
+    <div class="badge">5</div>
+  </div>
+  <span class="icon-label">Science</span>
+</div>
 
-    <!-- Engineering -->
-    <div class="app-icon" style="animation-delay:0.26s" data-app="engineering"
-      onclick="openModal('engineering')">
-      <div class="icon-face icon-engineering">🛠
-        <div class="badge">2</div>
-      </div>
-      <span class="icon-label">Engineering</span>
-    </div>
+<!-- Engineering -->
+<div class="app-icon" style="animation-delay:0.26s" data-app="engineering"
+  onclick="openModal('engineering')">
+  <div class="icon-face icon-engineering">🛠
+    <div class="badge">2</div>
+  </div>
+  <span class="icon-label">Engineering</span>
+</div>
 
-    <!-- Coding -->
-    <div class="app-icon" style="animation-delay:0.33s" data-app="coding"
-      onclick="openModal('coding')">
-      <div class="icon-face icon-coding">💻
-        <div class="badge">9</div>
-      </div>
-      <span class="icon-label">Coding</span>
-    </div>
+<!-- Coding -->
+<div class="app-icon" style="animation-delay:0.33s" data-app="coding"
+  onclick="openModal('coding')">
+  <div class="icon-face icon-coding">💻
+    <div class="badge">9</div>
+  </div>
+  <span class="icon-label">Coding</span>
+</div>
 
-    <!-- Art -->
-    <div class="app-icon" style="animation-delay:0.40s" data-app="art"
-      onclick="openModal('art')">
-      <div class="icon-face icon-art">🎨
-        <div class="badge">4</div>
-      </div>
-      <span class="icon-label">Digital Art</span>
-    </div>
+<!-- Art -->
+<div class="app-icon" style="animation-delay:0.40s" data-app="art"
+  onclick="openModal('art')">
+  <div class="icon-face icon-art">🎨
+    <div class="badge">4</div>
+  </div>
+  <span class="icon-label">Digital Art</span>
+</div>
+```
 
   </div><!-- /app-grid -->
 
-  <!-- ░░ NEWSLETTER WIDGET ░░ 
+  <!-- ░░ NEWSLETTER WIDGET ░░ -->
+
   <div class="newsletter-widget" onclick="openModal('newsletter')" style="opacity:0;animation:icon-in 0.5s 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;">
     <div class="nw-icon">📬</div>
     <div class="nw-text">
@@ -555,15 +577,17 @@
       <div class="nw-sub">Weekly STEAM resources for grades K–5</div>
     </div>
     <div class="nw-arrow">›</div>
-  </div> -->
+  </div>
 
   <!-- ░░ PAGE DOTS ░░ -->
+
   <div class="page-dots">
     <div class="dot active"></div>
     <div class="dot"></div>
   </div>
 
   <!-- ░░ DOCK ░░ -->
+
   <div class="dock">
     <!-- Home (newsletter) -->
     <div class="app-icon" onclick="openModal('newsletter')" style="animation-delay:0.55s;">
@@ -582,12 +606,13 @@
     </div>
     <!-- About -->
     <div class="app-icon" onclick="openModal('about')" style="animation-delay:0.70s;">
-      <div class="icon-face" style="background:linear-gradient(145deg,#ec4899,#db2777);">👩🏽‍🏫</div>
+      <div class="icon-face" style="background:linear-gradient(145deg,#ec4899,#db2777);">👩‍🏫</div>
       <span class="icon-label">About</span>
     </div>
   </div>
 
   <!-- ░░░░░░░░░░ MODAL SHEET ░░░░░░░░░░ -->
+
   <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal-sheet" id="modal-sheet">
       <div class="sheet-topbar" id="sheet-topbar"></div>
@@ -599,7 +624,6 @@
   </div>
 
 </div><!-- /phone-shell -->
-
 
 <script>
 // ─────────────────────────────────────
@@ -774,7 +798,7 @@ function openModal(appKey) {
     <div class="chips">${chipsHTML}</div>
 
     <div id="modal-form-wrap">
-      <form class="modal-form" method="POST" data-netlify="true">
+      <div class="modal-form">
         <div>
           <div class="modal-label">Your Name</div>
           <input class="modal-input" id="m-name" type="text" placeholder="e.g. The Johnson Family"
@@ -804,7 +828,7 @@ function openModal(appKey) {
           ${app.ctaLabel}
         </button>
         <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
-      </form>
+      </div>
     </div>
 
     <div class="modal-success" id="modal-success">
@@ -836,15 +860,48 @@ function handleOverlayClick(e) {
   if (e.target === document.getElementById('modal-overlay')) closeModal();
 }
 
+// ─────────────────────────────────────
+// NETLIFY FORM SUBMISSION
+// ─────────────────────────────────────
+function encodeNetlify(data) {
+  return Object.keys(data)
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k]))
+    .join('&');
+}
+
 function submitModal() {
   const name  = document.getElementById('m-name').value.trim();
   const email = document.getElementById('m-email').value.trim();
+  const grade = document.getElementById('m-grade').value;
+
   if (!name) { alert('Please enter your name.'); return; }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     alert('Please enter a valid email address.'); return;
   }
-  document.getElementById('modal-form-wrap').style.display = 'none';
-  document.getElementById('modal-success').classList.add('visible');
+
+  const btn = document.querySelector('.modal-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: encodeNetlify({
+      'form-name':   'steam-signup',
+      'app-context': currentApp || 'unknown',
+      'name':         name,
+      'email':        email,
+      'grade':        grade,
+    }),
+  })
+  .then(() => {
+    document.getElementById('modal-form-wrap').style.display = 'none';
+    document.getElementById('modal-success').classList.add('visible');
+  })
+  .catch(err => {
+    console.error('Netlify form error:', err);
+    alert('Something went wrong. Please try again.');
+    if (btn) { btn.disabled = false; btn.textContent = apps[currentApp]?.ctaLabel || 'Subscribe'; }
+  });
 }
 
 // ─────────────────────────────────────
@@ -924,5 +981,6 @@ document.getElementById('phone').addEventListener('touchend', e => {
   }
 }, { passive: true });
 </script>
+
 </body>
 </html>
