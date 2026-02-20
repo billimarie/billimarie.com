@@ -774,7 +774,7 @@ function openModal(appKey) {
     <div class="chips">${chipsHTML}</div>
 
     <div id="modal-form-wrap">
-      <div class="modal-form">
+      <form class="modal-form" method="POST" data-netlify="true">
         <div>
           <div class="modal-label">Your Name</div>
           <input class="modal-input" id="m-name" type="text" placeholder="e.g. The Johnson Family"
@@ -804,7 +804,7 @@ function openModal(appKey) {
           ${app.ctaLabel}
         </button>
         <p class="modal-fine">✓ Free &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Unsubscribe anytime</p>
-      </div>
+      </form>
     </div>
 
     <div class="modal-success" id="modal-success">
